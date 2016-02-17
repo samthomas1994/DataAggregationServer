@@ -1,22 +1,23 @@
 package uk.ac.bath.controller;
 
-import org.springframework.stereotype.Component;
 import uk.ac.bath.classes.UserDetails;
-import uk.ac.bath.database.Database_UserDetails;
+import uk.ac.bath.repositories.Database_UserDetails;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 /**
  * Created by Sam on 03/02/2016.
  */
 
-@Component
+
 public class Controller_Add {
 
+
     private Database_UserDetails userDb;
+
+    public Controller_Add() {
+
+    }
 
     public Database_UserDetails getUserDb() {
         return userDb;

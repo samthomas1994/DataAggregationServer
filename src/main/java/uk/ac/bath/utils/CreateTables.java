@@ -10,7 +10,7 @@ public class CreateTables {
     public CreateTables() {}
 
     public void create(Connection conn) {
-        System.out.println("Creating table in given database...");
+        System.out.println("Creating table in given repositories...");
 
         Statement stmt = null;
 
@@ -51,14 +51,14 @@ public class CreateTables {
                     " FOREIGN KEY (activity_id) REFERENCES ACTIVITY(id))";
 
             stmt.executeUpdate(sql3);
-            System.out.println("Created table in given database...");
+            System.out.println("Created table in given repositories...");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void dropTable(Connection conn, String name) {
-        System.out.println("Dropping table " + name + " in given database...");
+        System.out.println("Dropping table " + name + " in given repositories...");
 
         Statement stmt = null;
 
@@ -70,7 +70,7 @@ public class CreateTables {
 
 
             stmt.executeUpdate(sql);
-            System.out.println("Dropped table " + name + " in given database...");
+            System.out.println("Dropped table " + name + " in given repositories...");
         } catch (Exception e) {
             e.printStackTrace();
         }

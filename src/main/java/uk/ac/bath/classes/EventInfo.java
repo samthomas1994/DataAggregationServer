@@ -1,22 +1,45 @@
 package uk.ac.bath.classes;
 
+import org.hibernate.annotations.ForeignKey;
 import uk.ac.bath.classes.Activity;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 
 /**
  * Created by Sam on 03/02/2016.
  */
-public class EventInfo {
+@Entity
+@Table(name = "EVENTINFO")
+public class EventInfo implements Serializable {
 
-    private Integer id = null;
-    private UserDetails userDetails = null;
-    private Activity activity = null;
-    private Date event_date = null;
-    private Time start_time = null;
-    private Time end_time = null;
-    private Integer value = null;
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private UserDetails userDetails;
+
+    @ManyToOne
+    @JoinColumn(name="activity_id")
+    private Activity activity;
+
+    @Column(name="event_date")
+    private Date event_date;
+
+    @Column(name="start_time")
+    private Time start_time;
+
+    @Column(name="end_time")
+    private Time end_time;
+
+    @Column(name="value")
+    private Integer value;
 
     public EventInfo() {
 
@@ -39,7 +62,7 @@ public class EventInfo {
         return event_date;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -71,7 +94,7 @@ public class EventInfo {
         this.event_date = event_date;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -85,5 +108,13 @@ public class EventInfo {
 
     public void setValue(Integer value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "UserDetails[id=%d, userDetails='%s', activity='%s', event_date='%s', start_time='%s', " +
+                        "end_time='%s', value='%d']",
+                id, userDetails, activity, event_date, start_time, end_time, value);
     }
 }

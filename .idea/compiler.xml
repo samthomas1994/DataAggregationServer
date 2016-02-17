@@ -22,10 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="FYP" />
         <module name="ImportCSV" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="FYP" target="1.6" />
       <module name="ImportCSV" target="1.5" />
     </bytecodeTargetLevel>
   </component>
