@@ -113,7 +113,7 @@ public class EventInfo implements Serializable {
     @Override
     public String toString() {
         return String.format(
-                "UserDetails[id=%d, userDetails='%s', activity='%s', event_date='%s', start_time='%s', " +
+                "EventInfo[id=%d, userDetails='%s', activity='%s', event_date='%s', start_time='%s', " +
                         "end_time='%s', value='%d']",
                 id, userDetails, activity, event_date, start_time, end_time, value);
     }

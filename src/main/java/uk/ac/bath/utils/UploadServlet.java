@@ -1,9 +1,13 @@
+package uk.ac.bath.utils;
+
 // Import required java libraries
 import java.io.*;
 import java.util.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,8 +16,16 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.output.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+//import org.apache.commons.io.output.*;
 
+@CrossOrigin(origins = "http://people.bath.ac.uk", methods = RequestMethod.POST)
+@WebServlet("/UploadServlet")
+@Controller
+@MultipartConfig
 public class UploadServlet extends HttpServlet {
 
     private boolean isMultipart;

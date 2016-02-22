@@ -34,4 +34,6 @@
     <bean id="personDAO" class="uk.ac.bath.hibernate.PersonDAOImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
+
+    <bean id="multipartResolver" class ="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 </beans>

@@ -82,7 +82,7 @@ public class Activity implements Serializable {
     @Override
     public String toString() {
         return String.format(
-                "UserDetails[id=%d, source='%s', category='%s', type='%s', units='%s']",
+                "Activity[id=%d, source='%s', category='%s', type='%s', units='%s']",
                 id, source, category, type, units);
     }
 }

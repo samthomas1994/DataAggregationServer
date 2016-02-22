@@ -20,6 +20,14 @@ public interface PersonDAO {
     List<Activity> activityList();
     List<EventInfo> eventList();
 
+    UserDetails userFromId(Long id);
+
+    Activity activityFromId(Long id);
+
     List<UserDetails> userFromUsernameAndPassword(String username, String password);
+
+    List<Activity> activitiesFromUser(UserDetails user);
+
+    List<EventInfo> eventsFromUserAndActivity(UserDetails user, Activity activity);
 }
 

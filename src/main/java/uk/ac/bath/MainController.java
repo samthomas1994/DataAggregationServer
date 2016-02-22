@@ -13,6 +13,7 @@ import uk.ac.bath.classes.UserDetails;
 import uk.ac.bath.hibernate.AutowiredDatabase;
 import uk.ac.bath.hibernate.PersonDAO;
 import uk.ac.bath.utils.CreateTables;
+import uk.ac.bath.utils.ParseCSV;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -31,7 +32,6 @@ public class MainController implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     public void test() {
-
 
         List<UserDetails> list = database.getDatabase().userList();
 
@@ -52,6 +52,16 @@ public class MainController implements CommandLineRunner {
         for(EventInfo p3 : list3){
             System.out.println("Event List: "+p3);
         }
+
+        UserDetails user = database.getDatabase().userFromId(4l);
+
+        System.out.println(user);
+        System.out.println(database.getDatabase().activitiesFromUser(user));
+
+        ParseCSV parseCSV = new ParseCSV(database);
+
+        //parseCSV.importCSV();
+
         //close resources
         //context.close();
     }
