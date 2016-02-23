@@ -43,21 +43,22 @@ public class ParseCSV {
         this.database = database;
     }
 
-    public void importCSV(File file) {
-        UserDetails user = database.getDatabase().userFromId(4l);
-        Activity activity = database.getDatabase().activityFromId(2l);
-
-        String csvLocation = "/Users/Sam/FinalYearProject/CSV/Test.csv";
-        try {
-            FileReader csvFile = new FileReader(file);
-            readCSV(user, activity, csvFile);
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
+    public boolean importCSV(byte[] bytes, Long user_id, Long activity_id) {
+        UserDetails user = database.getDatabase().userFromId(user_id);
+        Activity activity = database.getDatabase().activityFromId(activity_id);
+//        try {
+//            FileReader csvFile = new FileReader(file);
+            if(!readCSV(user, activity, bytes)) {
+                return false;
+            }
+//        } catch(FileNotFoundException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+        return true;
     }
 
-    public void readCSV(UserDetails user, Activity activity, FileReader csvFile) {
+    public boolean readCSV(UserDetails user, Activity activity, byte[] bytes) {
 
         BufferedReader br = null;
         String line = "";
@@ -65,7 +66,9 @@ public class ParseCSV {
 
         try {
 
-            br = new BufferedReader(csvFile);
+            ByteArrayInputStream byteArray = new ByteArrayInputStream(bytes);
+            br = new BufferedReader(new InputStreamReader(byteArray));
+            //br = new BufferedReader(csvFile);
             while ((line = br.readLine()) != null) {
 
                 //Don't import headers line
@@ -120,5 +123,6 @@ public class ParseCSV {
         }
 
         System.out.println("Done");
+        return true;
     }
 }
