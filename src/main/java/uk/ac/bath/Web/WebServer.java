@@ -1,26 +1,16 @@
 package uk.ac.bath.Web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uk.ac.bath.classes.Activity;
 import uk.ac.bath.classes.UserDetails;
 import uk.ac.bath.hibernate.AutowiredDatabase;
-import uk.ac.bath.hibernate.PersonDAO;
 import uk.ac.bath.utils.ParseCSV;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.Iterator;
 import java.util.List;
 
@@ -57,49 +47,28 @@ public class WebServer {
         return activities;
     }
 
-    @RequestMapping(value = "/fileupload", method = RequestMethod.POST, headers = "content-type=multipart/form-data")
+    @RequestMapping(value = "/uploadCSV", method = RequestMethod.POST)
     @ResponseBody
-    public HttpEntity<UploadedFile> uploadMultipart(
-            final HttpServletRequest request,
-            final HttpServletResponse response,
-            @RequestParam("file") final MultipartFile multiPart) {
-
-        //handle regular MultipartFile
-
-        // IE <=9 offers to save file, if it is returned as json, so set content type to plain.
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.TEXT_PLAIN);
-        return new HttpEntity<UploadedFile>(headers);
-    }
-
-    @RequestMapping(value = "/uploadMyFile", method = RequestMethod.POST)
-    @ResponseBody
-    public String handleFileUpload(MultipartHttpServletRequest request)
+    public String csvUpload(MultipartHttpServletRequest request)
             throws Exception {
-        Iterator<String> itrator = request.getFileNames();
-        MultipartFile multiFile = request.getFile(itrator.next());
+
+        Iterator<String> it = request.getFileNames();
+        MultipartFile multiFile = request.getFile(it.next());
+        String user_id = request.getParameter("user_id");
+        String activity_id = request.getParameter("activity_id");
+        ParseCSV csvParser = new ParseCSV(database);
         try {
-            // just to show that we have actually received the file
-            System.out.println("File Length:" + multiFile.getBytes().length);
-            System.out.println("File Type:" + multiFile.getContentType());
-            String fileName=multiFile.getOriginalFilename();
-            System.out.println("File Name:" +fileName);
-            String path=request.getServletContext().getRealPath("/");
-
-            //making directories for our required path.
             byte[] bytes = multiFile.getBytes();
-            File directory=    new File(path+ "/uploads");
-            directory.mkdirs();
-            // saving the file
-            File file=new File(directory.getAbsolutePath()+System.getProperty("file.separator")+"test.csv");
+            Long user_id_value = Long.valueOf(user_id).longValue();
+            Long activity_id_value = Long.valueOf(activity_id).longValue();
 
-            BufferedOutputStream stream = new BufferedOutputStream(
-                    new FileOutputStream(file));
-            stream.write(bytes);
-            stream.close();
-
-            ParseCSV csvParser = new ParseCSV(database);
-            csvParser.importCSV(file);
+            Boolean success = csvParser.importCSV(bytes, user_id_value, activity_id_value);
+            if(!success) {
+                throw new Exception("Error while loading the file: error when parsing the csv file");
+            }
+        } catch (NumberFormatException nf) {
+            nf.printStackTrace();
+            throw new Exception("Error while loading the file: activity or user selection error");
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
