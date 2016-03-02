@@ -92,6 +92,17 @@ public class PersonDAOImpl implements PersonDAO {
     }
 
     @Override
+    public UserDetails userFromUsername(String username) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(UserDetails.class);
+        criteria.add(Restrictions.eq("username", username));
+        UserDetails user = (UserDetails) criteria.uniqueResult();
+        session.getTransaction().commit();
+        return user;
+    }
+
+    @Override
     public List<UserDetails> userFromUsernameAndPassword(String username, String password) {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();

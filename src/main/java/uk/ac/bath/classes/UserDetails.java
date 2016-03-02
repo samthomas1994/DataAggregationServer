@@ -1,5 +1,6 @@
 package uk.ac.bath.classes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.mock.staticmock.MockStaticEntityMethods;
 
 import javax.persistence.*;
@@ -67,6 +68,7 @@ public class UserDetails implements Serializable {
         this.lastname = lastname;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

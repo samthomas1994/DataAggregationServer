@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uk.ac.bath.classes.Activity;
 import uk.ac.bath.classes.UserDetails;
+import uk.ac.bath.controller.Controller_Add;
 import uk.ac.bath.hibernate.AutowiredDatabase;
 import uk.ac.bath.utils.ParseCSV;
 
@@ -24,6 +25,9 @@ public class WebServer {
     @Autowired
     AutowiredDatabase database;
 
+    @Autowired
+    Controller_Add add;
+
     @RequestMapping("/test")
     public UserDetails test() {
         System.out.println("Web method called");
@@ -32,7 +36,7 @@ public class WebServer {
     }
 
 
-    @RequestMapping("/userFromUsernameAndPassword")
+    @RequestMapping(value = "/userFromUsernameAndPassword", method = RequestMethod.POST)
     public List<UserDetails> userFromUsernameAndPassword(@RequestParam(value="username") String username, @RequestParam(value="password") String password) {
         System.out.println("Username: " + username);
         System.out.println("Password: " + password);
@@ -40,9 +44,22 @@ public class WebServer {
         return userDetails;
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public List<UserDetails> login(@RequestParam(value="username") String username, @RequestParam(value="password") String password) {
+        List<UserDetails> userDetails = add.login(username, password);
+        return userDetails;
+    }
+
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
+    public String addUser(@RequestParam(value="firstname") String firstname, @RequestParam(value="lastname") String lastname,
+                          @RequestParam(value="username") String username, @RequestParam(value="password") String password) throws Exception {
+        String success = add.addUser(firstname, lastname, username, password);
+        return toJson(success);
+    }
+
     @RequestMapping("/activitiesFromUser")
-    public List<Activity> activitiesFromUser(@RequestParam(value="userId") Long userId) {
-        UserDetails user = database.getDatabase().userFromId(userId);
+    public List<Activity> activitiesFromUser(@RequestParam(value="username") String username) {
+        UserDetails user = database.getDatabase().userFromUsername(username);
         List<Activity> activities = database.getDatabase().activitiesFromUser(user);
         return activities;
     }
@@ -54,15 +71,14 @@ public class WebServer {
 
         Iterator<String> it = request.getFileNames();
         MultipartFile multiFile = request.getFile(it.next());
-        String user_id = request.getParameter("user_id");
+        String username = request.getParameter("username");
         String activity_id = request.getParameter("activity_id");
         ParseCSV csvParser = new ParseCSV(database);
         try {
             byte[] bytes = multiFile.getBytes();
-            Long user_id_value = Long.valueOf(user_id).longValue();
             Long activity_id_value = Long.valueOf(activity_id).longValue();
 
-            Boolean success = csvParser.importCSV(bytes, user_id_value, activity_id_value);
+            Boolean success = csvParser.importCSV(bytes, username, activity_id_value);
             if(!success) {
                 throw new Exception("Error while loading the file: error when parsing the csv file");
             }

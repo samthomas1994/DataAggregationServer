@@ -24,6 +24,8 @@ public interface PersonDAO {
 
     Activity activityFromId(Long id);
 
+    UserDetails userFromUsername(String username);
+
     List<UserDetails> userFromUsernameAndPassword(String username, String password);
 
     List<Activity> activitiesFromUser(UserDetails user);
