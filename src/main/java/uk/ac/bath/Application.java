@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -23,6 +24,7 @@ import javax.sql.DataSource;
 
 //@EnableJpaRepositories(basePackages = {"uk.ac.bath"})
 @SpringBootApplication
+//@EnableOAuth2Sso
 public class Application {
 
     public static void main(String[] args) {

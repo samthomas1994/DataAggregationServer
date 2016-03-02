@@ -27,9 +27,9 @@ public class ImportCSV extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String description = request.getParameter("description"); // Retrieves <input type="text" name="description">
-        Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
-        String fileName = filePart.getSubmittedFileName();
-        InputStream fileContent = filePart.getInputStream();
+        //Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
+        //String fileName = filePart.getSubmittedFileName();
+        //InputStream fileContent = filePart.getInputStream();
         // ... (do your job here)
         System.out.println("Form submitted");
     }

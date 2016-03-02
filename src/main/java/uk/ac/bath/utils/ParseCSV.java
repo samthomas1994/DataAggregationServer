@@ -43,8 +43,8 @@ public class ParseCSV {
         this.database = database;
     }
 
-    public boolean importCSV(byte[] bytes, Long user_id, Long activity_id) {
-        UserDetails user = database.getDatabase().userFromId(user_id);
+    public boolean importCSV(byte[] bytes, String username, Long activity_id) {
+        UserDetails user = database.getDatabase().userFromUsername(username);
         Activity activity = database.getDatabase().activityFromId(activity_id);
 //        try {
 //            FileReader csvFile = new FileReader(file);
