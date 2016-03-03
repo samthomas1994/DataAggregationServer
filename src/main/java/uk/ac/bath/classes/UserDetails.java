@@ -1,7 +1,6 @@
 package uk.ac.bath.classes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.mock.staticmock.MockStaticEntityMethods;
 
 import javax.persistence.*;
 import java.io.Serializable;

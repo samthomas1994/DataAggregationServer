@@ -4,20 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
-import uk.ac.bath.Web.WebServer;
 import uk.ac.bath.classes.Activity;
 import uk.ac.bath.classes.EventInfo;
 import uk.ac.bath.classes.UserDetails;
 import uk.ac.bath.hibernate.AutowiredDatabase;
-import uk.ac.bath.hibernate.PersonDAO;
-import uk.ac.bath.utils.CreateTables;
 import uk.ac.bath.utils.ParseCSV;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.Time;
 import java.util.List;
 
 /**

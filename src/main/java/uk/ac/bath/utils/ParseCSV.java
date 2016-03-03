@@ -1,25 +1,10 @@
 package uk.ac.bath.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import uk.ac.bath.classes.Activity;
 import uk.ac.bath.classes.EventInfo;
 import uk.ac.bath.classes.UserDetails;
 import uk.ac.bath.hibernate.AutowiredDatabase;
-import uk.ac.bath.hibernate.PersonDAO;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;

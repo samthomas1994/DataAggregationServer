@@ -2,12 +2,10 @@ package uk.ac.bath.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
 import uk.ac.bath.Security.Encryption;
 import uk.ac.bath.Security.ValidInput;
 import uk.ac.bath.classes.UserDetails;
 import uk.ac.bath.hibernate.AutowiredDatabase;
-import uk.ac.bath.repositories.Database_UserDetails;
 
 import java.util.List;
 
