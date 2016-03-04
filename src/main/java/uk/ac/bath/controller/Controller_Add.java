@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 import uk.ac.bath.Security.Encryption;
 import uk.ac.bath.Security.ValidInput;
+import uk.ac.bath.classes.Activity;
+import uk.ac.bath.classes.EventInfo;
 import uk.ac.bath.classes.UserDetails;
 import uk.ac.bath.hibernate.AutowiredDatabase;
 import uk.ac.bath.repositories.Database_UserDetails;
@@ -56,6 +58,29 @@ public class Controller_Add {
         String encryptedPassword = encryption.encryptPassword(password);
         List<UserDetails> userDetails = database.getDatabase().userFromUsernameAndPassword(username, encryptedPassword);
         return userDetails;
+    }
+
+    /*********Activity*********/
+
+    public String addActivity(String source, String category, String type, String units) throws Exception {
+        Activity activity = new Activity(source, category, type, units);
+        database.getDatabase().save(activity);
+        return "Activity successfully created";
+    }
+
+    public String addActivityWithNullEvent(String source, String category, String type, String units, String username) throws Exception {
+        Activity activity = new Activity(source, category, type, units);
+        database.getDatabase().save(activity);
+        addNullEvent(database.getDatabase().userFromUsername(username), activity);
+        return "Activity successfully created";
+    }
+
+    /*********Event************/
+
+    public String addNullEvent(UserDetails userDetails, Activity activity) {
+        EventInfo eventInfo = new EventInfo(userDetails, activity, null, null, null, null);
+        database.getDatabase().save(eventInfo);
+        return "Event successfully created";
     }
 
 }

@@ -4,6 +4,7 @@ import uk.ac.bath.classes.Activity;
 import uk.ac.bath.classes.EventInfo;
 import uk.ac.bath.classes.UserDetails;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -31,5 +32,7 @@ public interface PersonDAO {
     List<Activity> activitiesFromUser(UserDetails user);
 
     List<EventInfo> eventsFromUserAndActivity(UserDetails user, Activity activity);
+
+    List<EventInfo> eventsFromUserActivityAndDate(UserDetails user, Activity activity, Date startDate);
 }
 

@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uk.ac.bath.classes.Activity;
 import uk.ac.bath.classes.UserDetails;
 import uk.ac.bath.controller.Controller_Add;
+import uk.ac.bath.controller.Controller_Get;
 import uk.ac.bath.hibernate.AutowiredDatabase;
 import uk.ac.bath.utils.ParseCSV;
 
@@ -27,6 +28,9 @@ public class WebServer {
 
     @Autowired
     Controller_Add add;
+
+    @Autowired
+    Controller_Get get;
 
     @RequestMapping("/test")
     public UserDetails test() {
@@ -57,11 +61,27 @@ public class WebServer {
         return toJson(success);
     }
 
+    @RequestMapping(value = "/addActivity", method = RequestMethod.POST)
+    public String addActivity(@RequestParam(value="source") String source, @RequestParam(value="category") String category,
+                              @RequestParam(value="type") String type, @RequestParam(value="units") String units,
+                              @RequestParam(value="username") String username) throws Exception {
+        String success = add.addActivityWithNullEvent(source, category, type, units, username);
+        return toJson(success);
+    }
+
     @RequestMapping("/activitiesFromUser")
     public List<Activity> activitiesFromUser(@RequestParam(value="username") String username) {
         UserDetails user = database.getDatabase().userFromUsername(username);
         List<Activity> activities = database.getDatabase().activitiesFromUser(user);
         return activities;
+    }
+
+    @RequestMapping(value = "/eventsInLastMonth", method = RequestMethod.POST)
+    public List activitiesFromUser(@RequestParam(value="username") String username, @RequestParam(value="activity") Long activityId) {
+        UserDetails user = database.getDatabase().userFromUsername(username);
+        Activity activity = database.getDatabase().activityFromId(activityId);
+        List events = get.eventsForActivityAndUserInLastMonth(user, activity);
+        return events;
     }
 
     @RequestMapping(value = "/uploadCSV", method = RequestMethod.POST)

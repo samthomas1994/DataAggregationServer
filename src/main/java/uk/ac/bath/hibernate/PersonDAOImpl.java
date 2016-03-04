@@ -10,6 +10,7 @@ import uk.ac.bath.classes.Activity;
 import uk.ac.bath.classes.EventInfo;
 import uk.ac.bath.classes.UserDetails;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -133,6 +134,19 @@ public class PersonDAOImpl implements PersonDAO {
         Criteria criteria = session.createCriteria(EventInfo.class);
         criteria.add(Restrictions.eq("userDetails", user));
         criteria.add(Restrictions.eq("activity", activity));
+        List<EventInfo> events = (List<EventInfo>) criteria.list();
+        session.getTransaction().commit();
+        return events;
+    }
+
+    @Override
+    public List<EventInfo> eventsFromUserActivityAndDate(UserDetails user, Activity activity, Date startDate) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(EventInfo.class);
+        criteria.add(Restrictions.eq("userDetails", user));
+        criteria.add(Restrictions.eq("activity", activity));
+        criteria.add(Restrictions.ge("event_date", startDate));
         List<EventInfo> events = (List<EventInfo>) criteria.list();
         session.getTransaction().commit();
         return events;
