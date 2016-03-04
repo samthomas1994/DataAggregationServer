@@ -31,8 +31,9 @@ public class Controller_Get {
     }
 
     public List eventsForActivityAndUserInLastMonth(UserDetails user, Activity activity) {
-        DateFormat format = new SimpleDateFormat("dd/MM/yy", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
         Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, 1);
         cal.add(Calendar.MONTH, -1);
         Date utilDate = cal.getTime();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -43,11 +44,9 @@ public class Controller_Get {
         for(Date day: days) {
             recorded = false;
             for(EventInfo event: events) {
-                java.sql.Date eventDate = event.getEvent_date();
-                java.sql.Date testDate = new java.sql.Date(day.getTime());
-                int dateComparison = eventDate.compareTo(testDate);
-                if(dateComparison == 0) {
-                    String stringDate = format.format(day.getTime());
+                String stringDate = format.format(day.getTime());
+                String stringEventDate = format.format(event.getEvent_date().getTime());
+                if(stringDate.equals(stringEventDate)) {
                     GraphData graphData = new GraphData(stringDate, event.getValue());
                     data.add(graphData);
                     recorded = true;
